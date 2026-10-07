@@ -1,4 +1,4 @@
-from urllib.parse import urlparse
+import validators
 import gradio as gr
 
 from langchain_core.prompts import PromptTemplate
@@ -29,17 +29,14 @@ prompt = PromptTemplate(
 
 def summarize_url(groq_api_key, generic_url):
 
-    # Validate Groq API key
+    # Validate inputs
     if not groq_api_key or not groq_api_key.strip():
         return "❌ Please provide the Groq API Key."
 
-    # Validate URL input
     if not generic_url or not generic_url.strip():
         return "❌ Please provide a URL."
 
-    parsed_url = urlparse(generic_url)
-
-    if parsed_url.scheme not in ("http", "https") or not parsed_url.netloc:
+    if not validators.url(generic_url):
         return "❌ Please enter a valid URL. It can be a YouTube or Website URL."
 
     try:
