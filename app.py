@@ -1,5 +1,6 @@
 import validators
 import gradio as gr
+import spaces
 
 from langchain_core.prompts import PromptTemplate
 from langchain_groq import ChatGroq
@@ -10,6 +11,9 @@ from langchain_community.document_loaders import (
 )
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
+@spaces.GPU(duration=1)
+def zerogpu_startup_probe():
+    return None
 
 # Prompt for summarization
 prompt_template = """
