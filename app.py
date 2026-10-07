@@ -82,8 +82,8 @@ def process_pdfs(api_key, uploaded_files):
         # ------------------------------------------
 
         text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=5000,
-            chunk_overlap=500
+            chunk_size=2000,
+            chunk_overlap=200
         )
 
         splits = text_splitter.split_documents(documents)
@@ -98,7 +98,7 @@ def process_pdfs(api_key, uploaded_files):
         )
 
         retriever = vectorstore.as_retriever(
-            search_kwargs={"k": 4}
+            search_kwargs={"k": 2}
         )
 
         return (
