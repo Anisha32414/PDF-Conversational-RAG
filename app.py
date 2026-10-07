@@ -1,3 +1,18 @@
+import sys
+import subprocess
+
+print("Python executable:", sys.executable)
+
+result = subprocess.run(
+    [sys.executable, "-m", "pip", "show", "validators"],
+    capture_output=True,
+    text=True
+)
+
+print("=== validators package ===")
+print(result.stdout)
+print(result.stderr)
+
 import os
 import validators
 import gradio as gr
