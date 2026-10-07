@@ -41,3 +41,4 @@ ddgs
 validators
 huggingface_hub
 gradio
+spaces
