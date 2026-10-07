@@ -1,20 +1,4 @@
-import sys
-import subprocess
-
-print("Python executable:", sys.executable)
-
-result = subprocess.run(
-    [sys.executable, "-m", "pip", "show", "validators"],
-    capture_output=True,
-    text=True
-)
-
-print("=== validators package ===")
-print(result.stdout)
-print(result.stderr)
-
-import os
-import validators
+from urllib.parse import urlparse
 import gradio as gr
 
 from langchain_core.prompts import PromptTemplate
@@ -45,14 +29,17 @@ prompt = PromptTemplate(
 
 def summarize_url(groq_api_key, generic_url):
 
-    # Validate inputs
+    # Validate Groq API key
     if not groq_api_key or not groq_api_key.strip():
         return "❌ Please provide the Groq API Key."
 
+    # Validate URL input
     if not generic_url or not generic_url.strip():
         return "❌ Please provide a URL."
 
-    if not validators.url(generic_url):
+    parsed_url = urlparse(generic_url)
+
+    if parsed_url.scheme not in ("http", "https") or not parsed_url.netloc:
         return "❌ Please enter a valid URL. It can be a YouTube or Website URL."
 
     try:
@@ -110,21 +97,22 @@ def summarize_url(groq_api_key, generic_url):
         )
 
         # Generate summary
-        output_summary = chain.invoke({
-            "input_documents": final_docs
-        })
+        output_summary = chain.invoke(
+            {
+                "input_documents": final_docs
+            }
+        )
 
         # Return summary
         return output_summary["output_text"]
 
     except Exception as e:
-
         return f"❌ Error: {str(e)}"
 
 
-# -------------------------------
+# --------------------------------
 # Gradio Interface
-# -------------------------------
+# --------------------------------
 
 with gr.Blocks(
     title="LangChain: Summarize Text from YouTube or Website"
