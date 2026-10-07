@@ -19,4 +19,4 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          git push https://anisha-14:${HF_TOKEN}@huggingface.co/spaces/anisha-14/Search-Engine-LLM main
+          git push --force https://anisha-14:${HF_TOKEN}@huggingface.co/spaces/anisha-14/Search-Engine-LLM main
