@@ -1,4 +1,5 @@
 name: Sync to Hugging Face hub
+
 on:
   push:
     branches: [main]
@@ -7,12 +8,15 @@ on:
 jobs:
   sync-to-hub:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           lfs: true
-      - name: Push to hub
+
+      - name: Push to Hugging Face
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push https://anisha-14:$HF_TOKEN@huggingface.co/spaces/anisha-14/Search_Engine_LLM main
+        run: |
+          git push https://anisha-14:${HF_TOKEN}@huggingface.co/spaces/anisha-14/Search-Engin-LLM main
